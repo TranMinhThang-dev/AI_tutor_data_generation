@@ -1,3 +1,4 @@
+import tempfile
 from typing import Union, Annotated
 from fastapi import FastAPI, UploadFile
 from main import MainDataGeneration
@@ -18,6 +19,21 @@ async def extract_exercises(image: UploadFile) -> None:
         image = Image.open(io.BytesIO(content))
         image.save("img/temp_image.png")
         data_gen.process_image(content)
+        return {"message": "Exercise extraction completed successfully!!!"}
+    except Exception as e:
+        return {"message": str(e)}
+
+
+@app.post("/extract_exercises_pdf/")
+async def extract_exercises_pdf(file: UploadFile, start_page: int = 0, end_page: int = -1) -> None:
+    try:
+        content = await file.read()
+        with tempfile.TemporaryFile(suffix=".pdf", mode='wb', delete=True) as tmp_file:
+            tmp_file.write(content)
+            tmp_file.flush()
+            pdf_path = tmp_file.name
+
+        data_gen.process_pdf(pdf_path=pdf_path, start_page=start_page, end_page=end_page)
         return {"message": "Exercise extraction completed successfully!!!"}
     except Exception as e:
         return {"message": str(e)}
