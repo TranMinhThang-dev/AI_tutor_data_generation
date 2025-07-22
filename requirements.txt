@@ -17,3 +17,4 @@ pymupdf==1.23.26
 Pillow
 numpy
 opencv-python
+python-multipart
