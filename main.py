@@ -5,12 +5,13 @@ from dotenv import load_dotenv
 from PIL import Image
 from tqdm import tqdm
 from modules.exercise_extractor import ExerciseExtractor
+from modules.step_by_step_solver_model import StepByStepSolver
 from modules.utils import pdf_pages_to_images
 from loguru import logger
 load_dotenv()
 
 class MainDataGeneration:
-    def __init__(self, save_path: str = "output.json"):
+    def __init__(self, save_path: str = "output.json", require_step_by_step_solution: bool = False):
         openai_api_key = os.getenv("LITELLM_API_KEY")
         openai_api_url = os.getenv("LITELLM_API_URL")
 
@@ -21,6 +22,16 @@ class MainDataGeneration:
             llm_host=openai_api_url
         )
         self.save_path = save_path
+        self.require_step_by_step_solution = require_step_by_step_solution
+        if self.require_step_by_step_solution:
+            self.step_by_step_solver = StepByStepSolver(
+                api_key=openai_api_key,
+                llm_model="gpt-4o",
+                provider="openai",
+                llm_host=openai_api_url
+            )
+        else:
+            self.step_by_step_solver = None
 
     def process_image(self, input_image: Union[str, bytes]) -> None:
         """Run the exercise extraction process."""
@@ -35,6 +46,13 @@ class MainDataGeneration:
 
             # Extract exercise list exercise from the image
             exercise_list = self.exercise_extractor.process(input_image)
+            
+            if self.require_step_by_step_solution:
+                logger.info("Starting give step by step solution for each exercise...")
+                for exercise in exercise_list.exercise_list:
+                    solution = self.step_by_step_solver.process(exercise.question)
+                    exercise.answer = solution
+
             for exercise in exercise_list.exercise_list:
                 with open(self.save_path, 'a', encoding='utf-8') as f:
                     f.write(f"{exercise.model_dump_json()},\n")
@@ -61,10 +79,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract exercises from images or PDFs.")
     parser.add_argument("--input", type=str, required=True, help="Path to the input image or PDF file.")
     parser.add_argument("--output", type=str, default="output.json", help="Path to save the extracted exercises.")
+    parser.add_argument("--step-by-step", action="store_true", help="Whether to require step by step solution for each exercise.")
 
     args = parser.parse_args()
 
-    data_generator = MainDataGeneration(save_path=args.output)
+    data_generator = MainDataGeneration(save_path=args.output, require_step_by_step_solution=args.step_by_step)
 
     if args.input.lower().endswith('.pdf'):
         data_generator.process_pdf(args.input)
