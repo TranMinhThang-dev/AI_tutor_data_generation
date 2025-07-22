@@ -2,7 +2,7 @@ from typing import Union, Annotated
 from fastapi import FastAPI, UploadFile
 from main import MainDataGeneration
 
-data_gen = MainDataGeneration()
+data_gen = MainDataGeneration(require_step_by_step_solution=True)
 app = FastAPI()
 
 @app.get("/")
