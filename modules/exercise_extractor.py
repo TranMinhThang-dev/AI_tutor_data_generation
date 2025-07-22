@@ -3,6 +3,7 @@ from .base import BaseLLMModule
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.output_parsers.fix import OutputFixingParser
 from .models import ExerciseList
+from loguru import logger
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from .prompt import EXERCISE_LIST_PARSER_PROMPT
 
@@ -41,5 +42,4 @@ class ExerciseExtractor(BaseLLMModule):
 
             return self.parser.parse(llm_output)
         except Exception as e:
-            from loguru import logger
             logger.error(f"Error {e} in line {e.__traceback__.tb_lineno}, code: {e.__traceback__.tb_frame.f_code.co_name}")
