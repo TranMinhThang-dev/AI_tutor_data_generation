@@ -61,13 +61,13 @@ class MainDataGeneration:
         except Exception as e:
             logger.error(f"Error during exercise extraction: {e} in line {e.__traceback__.tb_lineno}, code: {e.__traceback__.tb_frame.f_code.co_name}")
 
-    def process_pdf(self, pdf_path: str) -> None:
+    def process_pdf(self, pdf_path: str, start_page: int = 0, end_page: int = -1) -> None:
         """Process a PDF file and extract exercises from each page."""
         logger.info("Starting exercise extraction in PDF...")
 
         try:
             images = pdf_pages_to_images(pdf_path)
-            for image in tqdm(images, desc="Processing PDF pages:"):
+            for image in tqdm(images[start_page: end_page], desc="Processing PDF pages:"):
                 self.process_image(image)
             logger.success("Extracted exercises successfully.")
         except Exception as e:
@@ -80,13 +80,16 @@ if __name__ == "__main__":
     parser.add_argument("--input", type=str, required=True, help="Path to the input image or PDF file.")
     parser.add_argument("--output", type=str, default="output.json", help="Path to save the extracted exercises.")
     parser.add_argument("--step-by-step", action="store_true", help="Whether to require step by step solution for each exercise.")
+    parser.add_argument("--start_page", type=int, default=1, help="Start page for PDF processing (default: 0).")
+    parser.add_argument("--end_page", type=int, default=None, help="End page for PDF processing (default: -1).")
 
     args = parser.parse_args()
 
+    start_page, end_page = args.start_page, args.end_page  
     data_generator = MainDataGeneration(save_path=args.output, require_step_by_step_solution=args.step_by_step)
 
     if args.input.lower().endswith('.pdf'):
-        data_generator.process_pdf(args.input)
+        data_generator.process_pdf(args.input, start_page, end_page)
         logger.info(f"Processed pdf: {args.input}")
     else:
         data_generator.process_image(args.input)
