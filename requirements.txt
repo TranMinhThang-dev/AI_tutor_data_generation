@@ -18,3 +18,4 @@ Pillow
 numpy
 opencv-python
 python-multipart
+uvicorn
