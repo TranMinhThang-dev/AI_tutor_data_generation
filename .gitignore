@@ -3,3 +3,5 @@ data
 .env
 modules/__pycache__/
 __pycache__/
+debug/
+output.json
