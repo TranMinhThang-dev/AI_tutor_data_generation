@@ -1,5 +1,5 @@
 EXERCISE_LIST_PARSER_PROMPT = """
-You are an AI assistant helping to extract Vietnamese math exercises from educational images. Your job is to extract all exercise (question and answer) from this image and produce a structured JSON object that conforms to the following schema:
+Extract all exercise include question and answer from this page then convert to latex and produce a structured JSON object that conforms to the following schema:
 {schema}
 """
 
