@@ -37,3 +37,33 @@ You will serve as a supplementary tool for an LLM, so your output needs to be as
 INPUT:
 {input}
 """
+
+READ_INPUT_IMAGE_WITH_BOUNDING_BOX = """
+You are an expert system designed to identify and extract Exercise Numbers from images of textbook or worksheet pages.
+
+### Objective:
+Locate and extract all distinct Exercise Numbers present in the provided image. For each identified number, provide its textual representation and its precise bounding box. Return the results as a list of JSON objects.
+
+### Output Format:
+A list of JSON objects, where each object has two keys:
+- "exercise_title_index": The extracted exercise number as text (e.g., "Bài 1", "Câu 2", "Câu 6.1").
+- "bounding_box": The tight bounding box coordinates [x1, y1, x2, y2] enclosing *only* the exercise number text in the image.
+
+### Crucial Guidelines for Identification:
+1.  **Identify the Target:** Look for text segments that function as unique identifiers for exercises, problems, or questions. These are typically integers ("Bài 1", "Câu 2", "Bài 15") or sometimes decimal numbers ("Câu 3.1", "Bài 10.2"). They mark the beginning of a specific task.
+2.  **Focus on the Number Text Only:** The extracted text (`exercise_title_index`) must be *only* the number itself. Do not include surrounding punctuation (like periods: "1." -> "1"), symbols, or any adjacent words or question text.
+3.  **Precise Bounding Box:** This is critical. The `bounding_box` must tightly enclose *only the pixels corresponding to the exercise number text itself*.
+    * Even if the number is inside or adjacent to a larger shape (like a colored box, circle, icon, or graphical element), the bounding box should cover *only the number's text*. For example, in the provided image, the box for "1" should cover only the digit "1", not the entire blue shape.
+4.  **Visual Cues & Context:** Exercise numbers are often visually distinct or positioned contextually:
+    * They frequently appear at the beginning of a line or paragraph containing the exercise/question text.
+    * They might be styled differently: bold font, larger/smaller size, different color, or within a specific shape (like the blue shapes in the example image). Use these cues to locate potential candidates.
+    * Consider the layout; they often stand slightly apart from the main question text.
+5.  **Distinguish from Other Numbers:** Carefully differentiate exercise numbers from other numbers on the page (e.g., numbers *within* the exercise text, page numbers, example calculations, multiple-choice labels like A, B, C, D). Exercise numbers specifically *label* the start of a distinct problem or question block.
+6.  **Handling Small or Stylized Numbers:** Pay special attention to numbers that might be small or have unusual styling (like being inside a shape). The OCR needs to accurately identify the number text and its precise location for the bounding box.
+7.  **Sequential Expectation (Heuristic):** While exercise numbers often appear sequentially (e.g., 1, 2, 3), this is not a strict requirement. Prioritize identifying elements that fit the visual and contextual pattern of an exercise number identifier.
+8.  **No Exercise Numbers Found:** If the image contains no identifiable exercise numbers according to these guidelines, return an empty list (`[]`).
+
+### Instruction:
+Analyze the provided image meticulously based on the guidelines and return the JSON list as specified.
+{format_instruction}
+"""
