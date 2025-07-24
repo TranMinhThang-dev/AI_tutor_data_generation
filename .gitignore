@@ -4,4 +4,5 @@ data
 modules/__pycache__/
 __pycache__/
 debug/
-output.json
+data.json
+output_image/
