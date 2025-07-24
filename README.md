@@ -21,7 +21,7 @@ AI Tutor Data Generation (DG) provides a set of tools to create artificial data 
 
 - 📝 More optimizer prompt
 - 📝 Adding overlapping when chunking image
-- 📝 Documentation
+- 📝 Improve model for increasing exercise detection ability
 
 ## Installation
 
@@ -43,6 +43,8 @@ ground truth to train a language model.
 
 ### Sample
 
+You can download data from [data](https://drive.google.com/drive/folders/1PAOtysa1K8fPuXuC8CzyjNwQ-pivEUfT?usp=sharing) and place in the root of repository
+
 Generating data from pdf
 
 ```
@@ -51,6 +53,13 @@ python main.py --input data/Chuyên\ đề\ SỐ\ PHỨC\ đầy\ đủ\ -\ Bùi
 
 By default, the results will be exported to the file `output.json`. Every line represents a question-answer pair.
 
+**Note:** You must select start page and end page carefully, this flow work best for page that have sequence of exercise
+
+<p align="center">
+  <a href="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png">
+    <img loading="lazy" alt="good_example" src="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png"/>
+  </a>
+</p>
 ## Get help and support
 
 Please feel free to connect with us using the [discussion section](https://github.com/TranMinhThang-dev/AI_tutor_data_generation/discussions).
