@@ -57,7 +57,7 @@ By default, the results will be exported to the file `output.json`. Every line r
 
 <p align="center">
   <a href="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png">
-    <img loading="lazy" alt="good_example" src="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png"/>
+    <img loading="lazy" alt="good_example" src="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png" width=40%/>
   </a>
 </p>
 
