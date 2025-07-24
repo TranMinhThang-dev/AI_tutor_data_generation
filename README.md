@@ -60,6 +60,7 @@ By default, the results will be exported to the file `output.json`. Every line r
     <img loading="lazy" alt="good_example" src="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/example_image.png"/>
   </a>
 </p>
+
 ## Get help and support
 
 Please feel free to connect with us using the [discussion section](https://github.com/TranMinhThang-dev/AI_tutor_data_generation/discussions).
