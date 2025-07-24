@@ -1,0 +1,1 @@
+python main.py --input data/Chuyên\ đề\ SỐ\ PHỨC\ đầy\ đủ\ -\ Bùi\ Trần.pdf  --start_page 14 --end_page 17 --output data.json --step-by-step
