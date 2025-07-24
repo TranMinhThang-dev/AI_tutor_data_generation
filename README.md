@@ -58,8 +58,8 @@ Please feel free to connect with us using the [discussion section](https://githu
 ## Current flow(subject to change)
 
 <p align="center">
-  <a href="https://github.com/docling-project/docling-sdg">
-    <img loading="lazy" alt="Docling" src="https://github.com/docling-project/docling-sdg/raw/main/docs/assets/docling-sdg-pic.png" width="40%"/>
+  <a href="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/architecture.png">
+    <img loading="lazy" alt="Architecture" src="https://github.com/TranMinhThang-dev/AI_tutor_data_generation/blob/dev/img/architecture.png"/>
   </a>
 </p>
 
